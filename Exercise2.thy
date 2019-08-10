@@ -292,9 +292,21 @@ fun coeffs :: "exp \<Rightarrow> int list" where
 (*Hint: consider the hint in Exercise 2.10*)
 
 lemma evalp_add_coeffs [simp]: "evalp (intList_add xs ys) a = (evalp xs a) + (evalp ys a)"
-  apply(induction rule add: intList_add_induct)
+  apply(induction rule: intList_add.induct)
+  apply(auto simp add:algebra_simps)
+  done
 
+lemma evalp_scala_coeffs [simp]: "evalp (intList_times_int xs c) a = (evalp xs a) * c"
+apply(induction xs)
+apply(auto simp add: algebra_simps)
+done
+
+lemma evalp_mul_coeffs [simp]: "evalp (intList_mult xs ys) a = (evalp xs a) * (evalp ys a)"
+apply(induction ys)
+apply(auto simp add: algebra_simps)
+done
 
 theorem evalp_coeffs [simp]: "evalp (coeffs e) x = eval e x"
   apply(induction e)
   apply(auto)
+  done
